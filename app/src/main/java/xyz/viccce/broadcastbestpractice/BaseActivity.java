@@ -49,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onReceive(final Context context, Intent intent) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("警告");
             builder.setMessage("您被强制下线,请重新登录！");
             builder.setCancelable(false);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
