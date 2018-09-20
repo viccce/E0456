@@ -91,7 +91,6 @@ public class LoginActivity extends BaseActivity {
             e.printStackTrace();
         }
 
-        //实现保存帐号密码
         login.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                 String password = passwordEdit.getText().toString();
 
                 if ("admin@test.com".equals(email) && "123456".equals(password)) {
-
+                    //TODO:保存帐号密码
                     try {
                         FileOutputStream outputStream = null;
                         BufferedWriter writer = null;
@@ -121,6 +120,7 @@ public class LoginActivity extends BaseActivity {
 
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("email", email);
                     startActivity(intent);
                     finish();
                 } else {

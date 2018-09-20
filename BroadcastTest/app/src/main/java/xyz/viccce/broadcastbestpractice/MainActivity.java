@@ -38,6 +38,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         load.setOnClickListener(this);
         forceOffline.setOnClickListener(this);
 
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("email");
+
+        editText.setText(email);
+
     }
 
     @Override
