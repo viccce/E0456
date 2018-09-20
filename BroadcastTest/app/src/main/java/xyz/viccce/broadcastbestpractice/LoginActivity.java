@@ -32,10 +32,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +65,33 @@ public class LoginActivity extends BaseActivity {
         login = (Button) findViewById(R.id.sign_in_button);
         isRemember = (CheckBox) findViewById(R.id.is_remember);
 
+
+        try {
+            FileInputStream inputStream = null;
+            BufferedReader reader = null;
+            inputStream = openFileInput("email");
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            if (reader != null && !("".equals(reader))) {
+                String email = reader.readLine();
+                emailEdit.setText(email);
+                emailEdit.setSelection(email.length());
+            }
+            reader.close();
+            inputStream = openFileInput("password");
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            if (reader != null && !("".equals(reader))) {
+                String password = reader.readLine();
+                passwordEdit.setText(password);
+                passwordEdit.setSelection(password.length());
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //实现保存帐号密码
         login.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,19 +100,25 @@ public class LoginActivity extends BaseActivity {
 
                 if ("admin@test.com".equals(email) && "123456".equals(password)) {
 
-                    if (isRemember.isChecked()){
-                        try {
-                            FileOutputStream outputStream = openFileOutput("password", MODE_PRIVATE);
-                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+                    try {
+                        FileOutputStream outputStream = null;
+                        BufferedWriter writer = null;
+                        outputStream = openFileOutput("email", MODE_PRIVATE);
+                        writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+                        writer.write(email);
+                        writer.close();
+                        if (isRemember.isChecked()) {
+                            outputStream = openFileOutput("password", MODE_PRIVATE);
+                            writer = new BufferedWriter(new OutputStreamWriter(outputStream));
                             writer.write(password);
                             writer.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
