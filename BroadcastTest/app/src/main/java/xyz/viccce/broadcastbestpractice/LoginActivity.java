@@ -27,10 +27,16 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +49,7 @@ public class LoginActivity extends BaseActivity {
 
     private EditText emailEdit;
     private EditText passwordEdit;
+    private CheckBox isRemember;
     private Button login;
 
     @Override
@@ -50,9 +57,10 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        emailEdit = (EditText)findViewById(R.id.email);
-        passwordEdit = (EditText)findViewById(R.id.password);
-        login = (Button)findViewById(R.id.sign_in_button);
+        emailEdit = (EditText) findViewById(R.id.email);
+        passwordEdit = (EditText) findViewById(R.id.password);
+        login = (Button) findViewById(R.id.sign_in_button);
+        isRemember = (CheckBox) findViewById(R.id.is_remember);
 
         login.setOnClickListener(new OnClickListener() {
             @Override
@@ -60,14 +68,28 @@ public class LoginActivity extends BaseActivity {
                 String email = emailEdit.getText().toString();
                 String password = passwordEdit.getText().toString();
 
-//                if ("admin@test.com".equals(email) && "123456".equals(password)){
+                if ("admin@test.com".equals(email) && "123456".equals(password)) {
+
+                    if (isRemember.isChecked()){
+                        try {
+                            FileOutputStream outputStream = openFileOutput("password", MODE_PRIVATE);
+                            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+                            writer.write(password);
+                            writer.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-//                }
-//                else {
-//                    Toast.makeText(LoginActivity.this, "帐号或密码错误", Toast.LENGTH_SHORT).show();
-//                }
+                } else {
+                    Toast.makeText(LoginActivity.this, "帐号或密码错误", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

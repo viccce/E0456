@@ -8,18 +8,31 @@
 
     <EditText
         android:id="@+id/edit_text"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="请输入文字"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/save" />
-    <Button
-        android:id="@+id/save"
+        app:layout_constraintBottom_toBottomOf="@+id/grid_layout" />
+    <GridLayout
+        android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/edit_text"
-        app:layout_constraintBottom_toBottomOf="@+id/force_offline"
-        android:text="保存"/>
+        app:layout_constraintBottom_toBottomOf="@+id/force_offline">
+        <Button
+            android:id="@+id/save"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存"/>
+        <Button
+            android:id="@+id/load"
+            android:layout_columnWeight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="还原"/>
+    </GridLayout>
 
     <Button
         android:id="@+id/force_offline"
