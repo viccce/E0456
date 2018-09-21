@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button load;
     private Button forceOffline;
     private EditText editText;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         load = (Button) findViewById(R.id.load);
         forceOffline = (Button) findViewById(R.id.force_offline);
         editText = (EditText) findViewById(R.id.edit_text);
+        webView = (WebView) findViewById(R.id.web_view);
+
         save.setOnClickListener(this);
         load.setOnClickListener(this);
         forceOffline.setOnClickListener(this);
@@ -42,6 +47,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         String email = intent.getStringExtra("email");
 
         editText.setText(email);
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("http://viccce.xyz");
 
     }
 
@@ -80,15 +89,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    public String loadFromSDcard(){
+    public String loadFromSDcard() {
         String text = "";
         try {
             FileInputStream inputStream = openFileInput("data");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder content = new StringBuilder();
-            text=reader.readLine();
+            text = reader.readLine();
             reader.close();
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
