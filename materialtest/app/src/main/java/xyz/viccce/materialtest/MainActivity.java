@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new FruitAdapter(fruitList);
         recyclerView.setAdapter(adapter);
 
-        swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_regresh);
+        swipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

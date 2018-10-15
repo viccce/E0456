@@ -11,14 +11,16 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="Fruits">
+            android:label="Fruits"
+            android:theme="@style/FruitActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FruitActivity"></activity>
+        <activity android:name=".FruitActivity"
+            android:theme="@style/FruitActivityTheme"></activity>
     </application>
 
 </manifest>
