@@ -1,5 +1,6 @@
 package xyz.viccce.coolweather.db;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
 public class Province extends LitePalSupport {
