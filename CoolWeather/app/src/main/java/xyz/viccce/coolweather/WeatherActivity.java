@@ -53,19 +53,19 @@ public class WeatherActivity extends AppCompatActivity {
         sportText = (TextView) findViewById(R.id.sport_text);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherString = prefs.getString("weather",null);
+        String weatherString = prefs.getString("weather", null);
         if (weatherString != null) {
             Weather weather = Utility.handleWeatherResponse(weatherString);
             showWeatherInfo(weather);
-        }else {
+        } else {
             String weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(weatherId);
         }
     }
 
-    public void requestWeather(final String weatherId){
-        String weatherUrl = "http://guolin.tech/api/weather?cityid="+weatherId+"&key=af8cea3d8f0e49e98f933f771af4b0a4";
+    public void requestWeather(final String weatherId) {
+        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=af8cea3d8f0e49e98f933f771af4b0a4";
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -90,7 +90,7 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("weather", responseText);
                             editor.apply();
                             showWeatherInfo(weather);
-                        }else {
+                        } else {
                             Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -99,22 +99,22 @@ public class WeatherActivity extends AppCompatActivity {
         });
     }
 
-    private void showWeatherInfo(Weather weather){
+    private void showWeatherInfo(Weather weather) {
         String cityName = weather.basic.cityName;
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
-        String degree = weather.now.temperature+ "℃";
+        String degree = weather.now.temperature + "℃";
         String weatherInfo = weather.now.more.info;
         titleCity.setText(cityName);
         titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
-        for (Forecast forecast:weather.forecastList ){
+        for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
-            TextView dateText = (TextView)view.findViewById(R.id.date_text);
-            TextView infoText = (TextView)view.findViewById(R.id.info_text);
-            TextView maxText = (TextView)view.findViewById(R.id.max_text);
-            TextView minText = (TextView)view.findViewById(R.id.min_text);
+            TextView dateText = (TextView) view.findViewById(R.id.date_text);
+            TextView infoText = (TextView) view.findViewById(R.id.info_text);
+            TextView maxText = (TextView) view.findViewById(R.id.max_text);
+            TextView minText = (TextView) view.findViewById(R.id.min_text);
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
             maxText.setText(forecast.temperature.max);
@@ -122,12 +122,12 @@ public class WeatherActivity extends AppCompatActivity {
             forecastLayout.addView(view);
         }
         if (weather.aqi != null) {
-//            aqiText.setText(weather.aqi.city.aqi);
-//            pm25Text.setText(weather.aqi.city.pm25);
+            aqiText.setText(weather.aqi.city.aqi);
+            pm25Text.setText(weather.aqi.city.pm25);
         }
-        String comfort = "舒适度:"+weather.suggestion.comfort.info;
-        String carWash = "洗车指数:"+weather.suggestion.carWash.info;
-        String sport = "运动建议:"+weather.suggestion.sport.info;
+        String comfort = "舒适度:" + weather.suggestion.comfort.info;
+        String carWash = "洗车指数:" + weather.suggestion.carWash.info;
+        String sport = "运动建议:" + weather.suggestion.sport.info;
         comfortText.setText(comfort);
         catWashText.setText(carWash);
         sportText.setText(sport);

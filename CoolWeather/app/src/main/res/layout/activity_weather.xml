@@ -22,6 +22,8 @@
 
             <include layout="@layout/forecast" />
 
+            <include layout="@layout/aqi" />
+
             <include layout="@layout/suggestion" />
         </LinearLayout>
     </ScrollView>
